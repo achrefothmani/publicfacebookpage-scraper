@@ -25,10 +25,10 @@ def scrape(page_link: PageLinkRequestPayload):
     response = ScrapeJobResponse()
     
     driver_options = Options()
-    #driver_options.add_argument("--headless")
+    driver_options.add_argument("--headless")
 
-    driver = SeleniumWebDriver(driver_options)
-    driver = driver.get_driver()
+    selenium_driver = SeleniumWebDriver(driver_options)
+    driver = selenium_driver.get_driver()
 
     scraper = Scraper(page_link.page_link, driver)
     try:
@@ -48,8 +48,9 @@ def scrape(page_link: PageLinkRequestPayload):
     phone_number = scraper.get_phone_number()
     email = scraper.get_email()
     website = scraper.get_website()
-
     latest_post = scraper.get_latest_post()
+
+    selenium_driver.close_driver()
 
     page_information = PageInformationResponse(name=name, likes=likes, followers=followers, description=description,
                                                page_type=page_type, address=address, phone_number=phone_number, email=email,
