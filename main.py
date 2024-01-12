@@ -2,7 +2,7 @@ from typing import Union
 import uvicorn
 from fastapi import FastAPI
 
-from models import PageInformationResponse, PageLinkRequestPayload, ScrapeJobResponse
+from scraper.models import PageInformationResponse, PageLinkRequestPayload, ScrapeJobResponse
 from selenium.webdriver.chrome.options import Options
 from scraper.scraper import Scraper, SeleniumWebDriver
 import logging
@@ -49,9 +49,11 @@ def scrape(page_link: PageLinkRequestPayload):
     email = scraper.get_email()
     website = scraper.get_website()
 
+    latest_post = scraper.get_latest_post()
+
     page_information = PageInformationResponse(name=name, likes=likes, followers=followers, description=description,
                                                page_type=page_type, address=address, phone_number=phone_number, email=email,
-                                               website=website)
+                                               website=website, latest_post=latest_post)
     response.page_information = page_information
     response.status = "OK"
     

@@ -8,3 +8,5 @@ phone_number_xpath = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[1]/div
 email_xpath = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/div[2]/div/ul/div[4]/div[2]/div/div/span'
 website_xpath = '/html/body/div[1]/div/div[1]/div/div[3]/div/div/div[1]/div[1]/div/div/div[4]/div[2]/div/div[1]/div[2]/div/div[1]/div/div/div/div/div[2]/div[2]/div/ul/div[5]/div[2]/div/a/div/div/span'
 post_class_name = 'x1yztbdb x1n2onr6 xh8yej3 x1ja2u2z'
+posts_xpath = "//div[contains(@class,'x1yztbdb x1n2onr6 xh8yej3 x1ja2u2z')]"
+

@@ -1,14 +1,11 @@
-import time
-from bs4 import BeautifulSoup
-import requests
+
 import logging
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.remote.webelement import WebElement
-from utils.utils import text_purify, todigit
+from scraper.models import Post
+from utils.utils import extract_date, text_purify
 
 from .constants import *
 
@@ -128,9 +125,17 @@ class Scraper():
         else:
             return "N/A"
         
-    # def get_latest_posts(self) -> list:
-    #     element = self.scrape_by_classname(class_name=post_class_name)
-    #     if element is not None:
-    #         return text_purify(element.text)
-    #     else:
-    #         return "N/A"
+    def get_latest_post(self) -> Post:
+        element = self.scrape_by_xpath(posts_xpath)
+        latest_post = Post()
+        if element is not None:
+            date = element.find_element(By.XPATH, ".//span[contains(@class, 'x193iq5w xeuugli x13faqbe x1vvkbs x10flsy6 x1lliihq x1s928wv xhkezso x1gmr53x x1cpjm7i x1fgarty x1943h6x x1tu3fi x3x7a5m x1nxh6w3 x1sibtaa xo1l8bm xi81zsa x1yc453h')]")
+            description = element.find_element(By.XPATH, ".//div[contains(@class, 'xdj266r x11i5rnm xat24cr x1mh8g0r x1vvkbs x126k92a')]")
+            interactions = element.find_element(By.XPATH, ".//span[contains(@class, 'xrbpyxo x6ikm8r x10wlt62 xlyipyv x1exxlbk')]")
+            latest_post.description = description.text
+            latest_post.published_at = extract_date(date.text)
+            latest_post.interactions = interactions.text
+            return latest_post
+        else:
+            logging.error("Unable to get latest post")
+            return latest_post
