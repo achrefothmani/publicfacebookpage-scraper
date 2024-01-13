@@ -1,8 +1,9 @@
 from typing import Union
 import uvicorn
 from fastapi import FastAPI
+from database.repository import insert_record
 
-from scraper.models import PageInformationResponse, PageLinkRequestPayload, ScrapeJobResponse
+from scraper.schema import PageInformationResponse, PageLinkRequestPayload, ScrapeJobResponse
 from selenium.webdriver.chrome.options import Options
 from scraper.scraper import Scraper, SeleniumWebDriver
 import logging
@@ -31,13 +32,14 @@ def scrape(page_link: PageLinkRequestPayload):
     driver = selenium_driver.get_driver()
 
     scraper = Scraper(page_link.page_link, driver)
-    try:
-        scraper.close_popup()
-    except Exception as e:
-        logging.exception('Unable to scrape page: ', str(e))
-        response.message = "Unable to scrape page"
-        response.status = "failed"
-        return response
+    
+    # try:
+    #     scraper.close_popup()
+    # except Exception as e:
+    #     logging.exception('Unable to scrape page: ', str(e))
+    #     response.message = "Unable to scrape page"
+    #     response.status = "failed"
+    #     return response
     
     name = scraper.get_page_name()
     likes = scraper.get_likes_count()
@@ -55,12 +57,20 @@ def scrape(page_link: PageLinkRequestPayload):
     page_information = PageInformationResponse(name=name, likes=likes, followers=followers, description=description,
                                                page_type=page_type, address=address, phone_number=phone_number, email=email,
                                                website=website, latest_post=latest_post)
+    
+    print(page_information)
+    try:
+        insert_record(page_information)
+        response.status = "OK"
+    except:
+        response.status = "failed"
+        response.message = "Unable to insert record into database"
+
     response.page_information = page_information
-    response.status = "OK"
     
     return response
 
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)

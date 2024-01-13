@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from scraper.models import Post
+from scraper.schema import Post
 from utils.utils import extract_date, text_purify
 
 from .constants import *
@@ -39,7 +39,7 @@ class Scraper():
 
     def scrape_by_xpath(self, xpath: str):
         try:
-            web_element = WebDriverWait(self.driver, 3).until(EC.presence_of_element_located((By.XPATH, xpath)))
+            web_element = WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.XPATH, xpath)))
             return web_element
         except Exception as e:
             logging.exception('Unable to scrape xpath: ' +  xpath + ' '+str(e))
