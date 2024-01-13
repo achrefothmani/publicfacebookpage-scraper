@@ -32,15 +32,7 @@ def scrape(page_link: PageLinkRequestPayload):
     driver = selenium_driver.get_driver()
 
     scraper = Scraper(page_link.page_link, driver)
-    
-    # try:
-    #     scraper.close_popup()
-    # except Exception as e:
-    #     logging.exception('Unable to scrape page: ', str(e))
-    #     response.message = "Unable to scrape page"
-    #     response.status = "failed"
-    #     return response
-    
+        
     name = scraper.get_page_name()
     likes = scraper.get_likes_count()
     followers = scraper.get_followers_count()
@@ -58,7 +50,6 @@ def scrape(page_link: PageLinkRequestPayload):
                                                page_type=page_type, address=address, phone_number=phone_number, email=email,
                                                website=website, latest_post=latest_post)
     
-    print(page_information)
     try:
         insert_record(page_information)
         response.status = "OK"
