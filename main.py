@@ -27,6 +27,8 @@ def scrape(page_link: PageLinkRequestPayload):
     
     driver_options = Options()
     driver_options.add_argument("--headless")
+    driver_options.add_argument("--no-sandbox")
+    driver_options.add_argument("--disable-dev-shm-usage")
 
     selenium_driver = SeleniumWebDriver(driver_options)
     driver = selenium_driver.get_driver()
