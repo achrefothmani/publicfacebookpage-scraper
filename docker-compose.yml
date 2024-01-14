@@ -18,7 +18,7 @@ services:
     image: achrefothmeni/facebook-scraper:latest
     container_name: facebook_scraper
     environment:
-      - DATABASE_URL=mongodb://admin:admin@mongodb:27020/scrape_db?authSource=admin
+      - DATABASE_URL=mongodb://admin:admin@mongodb:27017/scrape_db?authSource=admin
     ports:
       - "8001:8000"
     restart: on-failure
