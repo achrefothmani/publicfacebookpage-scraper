@@ -55,6 +55,7 @@ def scrape(page_link: PageLinkRequestPayload):
     try:
         insert_record(page_information)
         response.status = "OK"
+        response.message = "Inserted records in database successfully"
     except:
         response.status = "failed"
         response.message = "Unable to insert record into database"
@@ -66,4 +67,4 @@ def scrape(page_link: PageLinkRequestPayload):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=False)
+    uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=False)
